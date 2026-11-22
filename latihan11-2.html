@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latihan 2 — Daftar Tugas dengan Checkbox</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      padding: 6px 10px;
+      font-size: 14px;
+      width: 240px;
+    }
+
+    button {
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0;
+    }
+
+    li {
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #eee;
+    }
+
+    li span {
+      margin: 0 10px 0 6px;
+    }
+
+    .selesai {
+      text-decoration: line-through;
+      color: #888;
+    }
+
+    #infoTugas {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Daftar Tugas</h2>
+
+  <input type="text" id="inputTugas" placeholder="Masukkan tugas baru...">
+  <button type="button" onclick="tambahTugas()">Tambah</button>
+
+  <ul id="daftarTugas"></ul>
+
+  <p id="infoTugas">Total: 0, Selesai: 0</p>
+
+  <script>
+    const inputTugas = document.getElementById('inputTugas');
+    const daftarTugas = document.getElementById('daftarTugas');
+    const infoTugas = document.getElementById('infoTugas');
+
+    function updateInfo() {
+      const semuaTugas = daftarTugas.querySelectorAll('li');
+      const tugasSelesai = daftarTugas.querySelectorAll('input[type="checkbox"]:checked');
+      infoTugas.textContent = 'Total: ' + semuaTugas.length + ', Selesai: ' + tugasSelesai.length;
+    }
+
+    function tambahTugas() {
+      const teks = inputTugas.value.trim();
+      if (teks === '') return;
+
+      const li = document.createElement('li');
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+
+      const span = document.createElement('span');
+      span.textContent = teks;
+
+      checkbox.onclick = function () {
+        if (checkbox.checked) {
+          span.classList.add('selesai');
+        } else {
+          span.classList.remove('selesai');
+        }
+        updateInfo();
+      };
+
+      const btnHapus = document.createElement('button');
+      btnHapus.type = 'button';
+      btnHapus.textContent = 'Hapus';
+      btnHapus.onclick = function () {
+        li.remove();
+        updateInfo();
+      };
+
+      li.appendChild(checkbox);
+      li.appendChild(span);
+      li.appendChild(btnHapus);
+      daftarTugas.appendChild(li);
+
+      inputTugas.value = '';
+      inputTugas.focus();
+      updateInfo();
+    }
+  </script>
+
+</body>
+</html>

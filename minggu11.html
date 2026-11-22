@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minggu 11 — Event Handling</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; margin: 5px; }
+        .aktif { background-color: #4CAF50; color: white; }
+        .output { background-color: #f0f0f0; padding: 15px; margin: 10px 0; border-radius: 5px; min-height: 30px; }
+    </style>
+</head>
+<body>
+           <h2>Membuat & Menghapus Elemen</h2>
+    <input type="text" id="input-item" placeholder="Ketik item baru...">
+    <button id="btn-tambah">Tambah</button>
+    <button id="btn-hapus-terakhir">Hapus Terakhir</button>
+    <button id="btn-hapus-semua">Hapus Semua</button>
+
+    <ul id="daftar-item" style="list-style: none; padding: 0;">
+    </ul>
+
+    <script>
+        // Fungsi membuat elemen baru
+        function buatItem(teksItem) {
+            const li = document.createElement("li");
+            li.textContent = teksItem;
+            li.style.padding = "8px 12px";
+            li.style.margin = "5px 0";
+            li.style.backgroundColor = "#e8f4f8";
+            li.style.borderRadius = "4px";
+            li.style.display = "flex";
+            li.style.justifyContent = "space-between";
+
+            // Tombol hapus per item
+            const tombolHapus = document.createElement("button");
+            tombolHapus.textContent = "✕";
+            tombolHapus.style.backgroundColor = "#ff6b6b";
+            tombolHapus.style.color = "white";
+            tombolHapus.style.border = "none";
+            tombolHapus.style.padding = "2px 8px";
+            tombolHapus.style.cursor = "pointer";
+            tombolHapus.style.borderRadius = "3px";
+
+            tombolHapus.addEventListener("click", function() {
+                li.remove(); // Hapus elemen dari DOM
+            });
+
+            li.appendChild(tombolHapus);
+            return li;
+        }
+
+        // Tambah item
+        document.getElementById("btn-tambah").addEventListener("click", function() {
+            const input = document.getElementById("input-item");
+            const teks = input.value.trim();
+
+            if (teks === "") {
+                alert("Masukkan teks terlebih dahulu!");
+                return;
+            }
+
+            const itemBaru = buatItem(teks);
+            document.getElementById("daftar-item").appendChild(itemBaru);
+            input.value = ""; // Kosongkan input
+            input.focus();    // Fokus kembali ke input
+        });
+
+        // Tambah item dengan Enter
+        document.getElementById("input-item").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("btn-tambah").click();
+            }
+        });
+
+        // Hapus item terakhir
+        document.getElementById("btn-hapus-terakhir").addEventListener("click", function() {
+            const daftar = document.getElementById("daftar-item");
+            if (daftar.lastElementChild) {
+                daftar.lastElementChild.remove();
+            }
+        });
+
+        // Hapus semua item
+        document.getElementById("btn-hapus-semua").addEventListener("click", function() {
+            document.getElementById("daftar-item").innerHTML = "";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Proyek — Toggle Menu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; }
+
+        /* Navbar */
+        .navbar {
+            background-color: #333;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .logo { color: white; font-size: 20px; font-weight: bold; }
+
+        /* Tombol hamburger */
+        .hamburger {
+            display: none; /* Tersembunyi di desktop */
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        /* Menu navigasi */
+        .nav-menu {
+            list-style: none;
+            display: flex; /* Horizontal di desktop */
+            gap: 15px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        .nav-menu a:hover { background-color: #555; }
+
+        /* Mobile: tampilkan hamburger, sembunyikan menu */
+        @media (max-width: 600px) {
+            .hamburger { display: block; }
+            .nav-menu {
+                display: none; /* Sembunyikan dulu */
+                flex-direction: vertical;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                background-color: #444;
+                padding: 10px 20px;
+            }
+            .nav-menu.tampil { display: flex; } /* Tampilkan jika ada class tampil */
+        }
+
+        /* Konten halaman */
+        .konten { padding: 20px; }
+        .konten h2 { margin-bottom: 10px; }
+        .konten p { line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">MyWeb</div>
+        <button class="hamburger" id="hamburger">☰</button>
+        <ul class="nav-menu" id="nav-menu">
+            <li><a href="#">Beranda</a></li>
+            <li><a href="#">Tentang</a></li>
+            <li><a href="#">Portofolio</a></li>
+            <li><a href="#">Kontak</a></li>
+        </ul>
+    </nav>
+
+    <div class="konten">
+        <h2>Selamat Datang!</h2>
+        <p>Coba ubah ukuran browser ke bawah 600px (atau buka di hp) untuk melihat menu hamburger muncul. Klik tombol ☰ untuk membuka/menutup menu.</p>
+    </div>
+
+    <script>
+        // Toggle menu saat tombol hamburger diklik
+        const tombolHamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("nav-menu");
+
+        tombolHamburger.addEventListener("click", function() {
+            navMenu.classList.toggle("tampil");
+
+            // Ganti simbol tombol
+            if (navMenu.classList.contains("tampil")) {
+                tombolHamburger.textContent = "✕";
+            } else {
+                tombolHamburger.textContent = "☰";
+            }
+        });
+
+        // Tutup menu jika diklik di luar area menu
+        document.addEventListener("click", function(event) {
+            if (!navMenu.contains(event.target) && !tombolHamburger.contains(event.target)) {
+                navMenu.classList.remove("tampil");
+                tombolHamburger.textContent = "☰";
+            }
+        });
+    </script>
+</body>
+</html>
